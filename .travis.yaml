@@ -15,7 +15,7 @@ after_success:
   - docker build -t faizan2590/multi-worker ./worker
   # Logon to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-  # Take those images and push them to docker hub
+  # Take those images and push them to docker hubb
   - docker push faizan2590/multi-client
   - docker push faizan2590/multi-nginx
   - docker push faizan2590/multi-server

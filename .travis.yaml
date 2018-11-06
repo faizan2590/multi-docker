@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t faizan2590/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run faizan2590/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t faizan2590/multi-client ./client
+  - docker build -t faizan2590/multi-nginx ./nginx
+  - docker build -t faizan2590/multi-server ./server
+  - docker build -t faizan2590/multi-worker ./worker
+  # Logon to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push faizan2590/multi-client
+  - docker push faizan2590/multi-nginx
+  - docker push faizan2590/multi-server
+  - docker push faizan2590/multi-worker
